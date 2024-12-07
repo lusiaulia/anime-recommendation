@@ -1,6 +1,6 @@
 # Laporan Proyek Machine Learning - Lusi Aulia Jati
 
-![Gambar Banana](https://raw.githubusercontent.com/lusiaulia/banana_quality/a781ff7e77c14a3588bac17b933cd8956b945b12/banana_quality.jpeg)
+![Gambar Banana](https://raw.githubusercontent.com/lusiaulia/anime-recommendation/refs/heads/main/dataset-cover.png)
 
 ## Domain Proyek Pertanian
 Pada sektor agribisnis banyak sekali yang perlu diperhatikan dari proses awal hingga akhir seperti pengelolaan lahan, pemilihan bibit, perawatan tanaman dan pendistribusian baik ekspor maupun domestik. Mengambil contoh

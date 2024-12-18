@@ -3,73 +3,67 @@
 ![Gambar Banana](https://raw.githubusercontent.com/lusiaulia/anime-recommendation/refs/heads/main/dataset-cover.png)
 
 ## Domain Proyek 
-Pada sektor agribisnis banyak sekali yang perlu diperhatikan dari proses awal hingga akhir seperti pengelolaan lahan, pemilihan bibit, perawatan tanaman dan pendistribusian baik ekspor maupun domestik. Mengambil contoh
-pada tanaman buah pisang, ekspor buah pisang Indonesia sendiri memiliki potensi yang besar dibuktikan pada 2021, volume ekspor pisang menduduki posisi kedua tertinggi setelah manggis dengan angka 5.500 ton per Mei 2021 (mediaindonesia.com,2021).
-Namun meski memiliki potensi yang besar, masih terdapat hambatan yang membuat sulitnya memaksimalkan potensi yang ada seperti persyaratan yang perlu dipenuhi dalam mengekspor buah salah satunya yaitu kualitas buah
-yang harus memenuhi standar ekspor dan penyesuaian sesuai preferensi konsumen pasar dunia [Rara,2021](https://journal.ipb.ac.id/index.php/jagbi/article/view/36753/24583). Sehingga, dengan hal ini diperlukannya peningkatan kualitas buah yang dihasilkan. 
-Pada penelitian ini, akan dilakukan percobaan klasifikasi baik tidaknya kualitas buah pisang berdasarkan data karakteristik buah dengan harapan dapat diketahui apakah ada kaitan antara karakteristik buah dengan kualitas. 
-Jika karakteristik buah dapat menggambarkan kualitas buah, maka dapat dilakukan penelitian lebih lanjut karakteristik yang paling mewakili dan yang tidak, serta bagaimana mengoptimalkan tiap rakteristik agar buah memiliki kualitas optimal.  
+Industri hiburan dan media terus dan semakin berkembang seiring dengan perkembangan zaman. Salah satu hiburan yang terkenal di seluruh dunia khas berasal dari negara Jepang yaitu anime, anime adalah animasi asal Jepang yang digambar dengan tangan maupun menggunakan teknologi komputer [WIkipedia,2024](https://id.wikipedia.org/wiki/Anime).
+Keberhasilan anime dalam menjajaki industri hiburan dan bisa menghibur beragam orang di seluruh dunia, salah satunya disebabkan beragamnya jenis dan film anime baik yang diperuntukkan untuk anak-anak hingga dewasa, ataupun dari genre slice of life, comedy, romansa, youth dan lainnya. 
+Pada percobaan ini, akan dilakukan percobaan untuk membuat rekomendasi anime berdasar kemiripan penonton dan hasil rating yang diberikan di platform myanimelist. Sehingga, akan memudahkan untuk penonton memilih anime yang akan ditonton sesuai dengan minatnya. 
 
 ## Business Understanding
 ### Problem Statements
-- Apakah data-data karakteristik buah pisang yang dipanen bisa menggambarkan kualitas buah pisang?
-- Dari data-data karakteristik buah pisang yang dipanen seperti Ukuran, Berat, Kemanisan, Keasaman, Waktu Panen, Tekstur dan Kematangan Buah, data mana sajakah yang berpengaruh terhadap kualitas buah?
+- Apakah data-data yang tersedia bisa digunakan untuk membuat sistem rekomendasi judul anime kepada pengguna?
+- Apakah hasil rekomendasi yang diberikan cukup relevan (seperti persamaan genre, atau rating)?
 
 ### Goals
-- Mengetahui apakah data-data karakteristik buah pisang yang dipanen bisa menggambarkan kualitas buah pisang.
-- Mengetahui data karakteristik buah mana saja yang berpengaruh terhadap kualitas buah pisang.
+- Mengetahui apakah data variabel yang tersedia dapat digunakan untuk sistem rekomendasi judul anime kepada pengguna.
+- Mengetahui kerelevanan hasil rekomendasi dilihat dari genre, judul anime, atau rating output rekomendasi. 
 
 ### Solution Statements
-- Menggunakan model machine learning untuk proses klasifikasi kualitas buah. Model yang digunakan yaitu K-Nearest Neighbor (KNN), Logistik Regression, dan XGBoost.
+- Menggunakan model machine learning untuk proses training rekomendasi anime. Model yang digunakan yaitu RecommenderNet dengan pendekatan rekomendasi user-based.
 
 ## Data Understanding
-Data bersumber dari [Kaggle Banana Quality Dataset](https://www.kaggle.com/datasets/l3llff/banana).
-Tahapan pada data understanding meliputi Exploratory Data Analysis (EDA), yang kemudian diperoleh informasi data yang digunakan yaitu data karakteristik buah pisang 
-yang dipanen dengan total berisi 8000 data pada tiap karakteristik, yang dengan 8000 data kualitas total terdapat 8000 x 8 = 64000 data. Karakterisitik buah yang dimaksud adalah ukuran, berat, tingkat kemanisan, tekstur softness, waktu panen, kematangan, keasaman dan kualitas buah. Berikut nama variabel yang tercantum dalam data:
+Data bersumber dari [Kaggle Anime Rating Dataset](https://www.kaggle.com/datasets/CooperUnion/anime-recommendations-database). Terdiri dari 2 file yaitu anime.csv dan rating.csv. Tahapan dari data understanding meliputi Exploratory Data Analysis (EDA), yang kemudian diperoleh informasi variabel data dari 2 file yang digunakan yaitu : 
 
-- Size : data ukuran buah
-- Weight : data berat buah pisang
-- Sweetness : data tingkat kemanisan buah
-- Softness : data tekstur buah (lembut tidaknya)
-- HarvestTime : waktu panen, bisa berupa usia buah ketika panen
-- Ripeness : tingkat kematangan buah, asumsi sudah melalui proses pematangan
-- Acidity : tingkat keasaman buah
-- Quality : kualitas buah (good atau bad)
-  
-Ketujuh data kecuali data kualitas buah adalah data numerik, sedangkan data kualitas buah merupakan data kualitatif. 
-Data-data yang bertipe numerik tersebut sudah dilakukan proses standarisasi sehingga bukan merupakan data mentah. Namun nantinya dalam proses data preparation akan dilakukan penskalaan ulang dengan rentang yang lebih sempit untuk memudahkan algoritma memahami data untuk memprediksi kualitas buah. 
+1. Variabel anime.csv
 
-Ketika data diamati pada proses ini ternyata tidak ditemukan data kosong (null) sehingga tidak perlu dilakukan pengisian data ataupun penghapusan baris akibat data kosong. Kemudian juga ditemukan outlier dari data yang terlihat dari visualisasi boxplot yang akan ditangani pada tahap data preparation.
+- anime_id : id anime dari myanimelist.
+- name : judul anime
+- genre : genre anime
+- type : movie, TV, OVA, dll.
+- episodes : banyak episode (1 jika movie).
+- rating : rata-rata rating dari anime (skala 1-10)
+- members : jumlah member dalam grup anime
+
+2. Variabel rating.csv
+
+- user_id : id user
+- anime_id : anime yang dinilai/rate oleh user
+- rating : rating skala 1-10 yang diberi oleh user (rating -1 jika sudah menonton tapi belum memberi rating)
+
+File anime.csv berisi 12294 entri data di tiap variabel, sementara file rating.csv berisi 7813737 entri data tiap variabel.  Sementara untuk jumlah unik(tanpa duplikat) untuk id anime pada anime.csv sejumlah 12294 dan pada rating.csv sejumlah 11200. Nantinya akan digunakan data pada rating.csv untuk proses training model rekomendasi yang dibangun. 
+
+Agar memudahkan dalam memahami data, akan coba dilihat jenis tipe anime yang ada di list data. Ternyata terdapat 6 jenis type anime yang ada yaitu tipe Movie, TV, OVA, Spesial, Music, dan ONA. Dengan tipe anime yang tayang di TV menjadi data paling banyak. Untuk rating sendiri divisualisasikan dengan histogram terlihat rata-rata berada di kisaran 6-7 untuk data nilai rating terbanyak.
+
 
 ## Data Preparation
 Tahapan pengolahan data yang dilakukan meliputi proses yang mencakup : 
-### Label Encoding Fitur Kategori & Data Cleaning
-Data kualitas buah merupakan data kualitatif (termasuk data kategori), sehingga diperlukan proses encoding menjadi data numerik agar dapat dilakukan pemrosesan data. Pada penelitian ini, proses ini dilakukan lebih dahulu sebelum proses data preparation lainnya. 
+### Data Cleaning
+Ingat pada file rating.csv untuk data rating terdapat nilai -1 untuk pengguna yang sudah menonton animenya tapi belum memberi rating. Data tersebut diputuskan untuk dihapus agar rating yang tersedia hanya berada di range rating (1-10). Akibatnya, jumlah id anime tersisa 9927 pada rating.csv dan banyak data menjadi 633.7241 data. 
 
-Sementara setelah sebelumnya dilihat visualisasi data menggunakan boxplot, terdapat cukup banyak data outlier sehingga dengan asumsi kejadian data outlier merupakan kejadian langka namun tidak termasuk dalam pola 
-data sehingga perlu dilakukan penghapusan outlier supaya tidak mempengaruhi hasil prediksi. Kali ini digunakan metode IQR untuk mengidentifikasi outlier dan menghapusnya, metode IQR dengan terlebih dahulu dihitung kuartil 1 (Q1) dan kuartil 3 (Q3). 
-Nilai IQR adalah selisih dari Q3 dikurang Q1. Nilai outlier adalah nilai yang lebih kecil dari Q1 dikurang 1,5 kali IQR dan nilai yang lebih besar dari Q3 ditambah 1,5 kali IQR. Setelah baris yang terdapat data outlier dihapus diperoleh sebanyak 7645 data per karakteristik buah. Setelah ini, data akan dipersiapkan ditahap Data Preparation sebelum digunakan untuk proses training model.
+#### Null Value & Data Duplikat
+Perlu diperhatikan agar pada data tidak ada data kosong dan juga data yang duplikat, sehingga dilakukan penghapusan data kosong & duplikat pada kedua file. 
 
-### Feature Selection
-Pada tahap ini dilihat korelasi antar data satu sama lain dan terutama terhadap data kualitas buah. Karakteristik buah yang memiliki korelasi baik akan dipilih menjadi variabel penentu kualitas pada model yang dibuat nantinya. 
 ### Data Transform (Standarisasi) & Pembagian Data
-Seperti yang sudah dijelaskan pada bagian 'Data Understanding', akan dilakukan proses transformasi data melalui penskalaan yang lebih sempit dalam penelitian ini menggunakan MinMax Scaler. Selain itu, data juga dibagi menjadi data training dan test sengan train_test_split dari library skitlearn, dengan proporsi 80% data training dan 20% data test.
+Sebelum data digunakan untuk proses training model yang disini akan digunakan RecomenderNet dengan data rating.csv, terlebih dahulu data rating (variabel y/tujuan) akan diskalakan agar memudahkan yaitu berada di rentang 0-1. Kemudian dilakukan pembagian data train dan test, dengan train berisi 80% data dan test 20%. Lalu data x terdiri dari user_id dan anime_id, sementara data y yaitu rating.
 
 ## Modeling
-Pada penelitian ini dibuat 3 jenis model yang biasa digunakan dalam proses klasifikasi, yaitu : 
-### K-Nearest Neighbor (KNN)
-Metode yang digunakan untuk melakukan klasifikasi dari suatu data berdasarkan atribut-atributnya dengan mengambil sejumlah K data terdekat (tetangganya), dalam proses mengukur data terdekat menggunakan rumus jarak euclidian.
-### Logistic Regression
-Metode yang melakukan prediksi dari probabilitas suatu kejadian, dalam prosesnya logistic regression mencari fungsi logistik (sigmoid) terbaik untuk mengklasifikasikan data. 
-### XGBoost  
-Metode yang bekerja dengan cara menggabungkan hasil prediksi dari berbagai model Decision Tree sehingga menjadi model dengan akurasi dan kinerja yang cukup baik. Kedalaman decision tree bisa disesuaikan, namun juga bisa digunakan nilai default yaitu 100.  
+Pada penelitian ini dibuat model yang biasa digunakan dalam rekomendasi, yaitu : 
+### User-Based Collaborative Filtering
+Data anime_df yang digunakan untuk proses membuat rekomendasi menggunakan pendekatan user-based dengan TF-IDF Vectorizer terlebih dahulu diubah menjadi bentuk matriks untuk dapat dilihat interaksi dari variabel (disini variabel name) dengan variabel yang dianggap penting dari algoritma. Kemudian akan dicari k-n data terdekat yang secara skor memiliki kemiripan tertinggi. 
 
-Ketiga model sudah terdapat library masing-masing sehingga bisa diimplementasikan dengan mudah tanpa perlu membuat model dari awal (scratch). Penelitian kali ini ketiga model menggunakan parameter default tanpa dilakukan proses parameter tuning (parameter default seperti contohnya pada KNN menggunakan n-neighbors bawaan di n=5). 
+### RecommederNet
+Merupakan model rekomendasi yang digunakan untuk memberikan rekomendasi item kepada pengguna berdasarkan preferensi atau riwayat interaksi. Pada nodel ini digunakan embedding layers untuk merepresentasikan fitur dari pengguna dan item, kemudian digunakan dot product untuk menghitung kemiripan pengguna dengan item, juga terdapat fungsi loss untuk mengukur seberapa jauh prediksi model dari nilai sebenarnya. 
+
 
 ## Evaluation & Conclusion
-- Proses evaluasi menggunakan accuracy score, yang mengukur nilai akurasi yang didapatkan dari jumlah data bernilai positif yang diprediksi positif dan data bernilai negatif yang diprediksi negatif dibagi dengan jumlah seluruh data di dalam dataset. Dari ketiga model terlihat model dengan akurasi yang paling besar yaitu model XGBoost dan KNN dengan akurasi berkisar 92%, sedangkan Logistic Regression menghasilkan akurasi 87%. 
-- Hasil akurasi mengindikasikan bahwa model sudah bisa mengklasifikasikan data karakteristik buah pisang apakah berkualitas baik atau tidak dengan baik. Sehingga bisa dikatakan bahwa dalam penelitian ini data karakteristik buah bisa menggambarkan kualitas buah pisang. 
-- Dilihat dari skor korelasi dan hasil prediksi maka data karakteristik Ukuran, Berat, Kemanisan, Waktu Panen, dan Kematangan Buah memiliki pengaruh terhadap kualitas buah. Sedangkan keasaman dan tekstur memiliki korelasi yang sangat kecil bahkan hanya berada diangka 0,x.
-- Terkadang dalam data nilai korelasi belum tentu menggambarkan sebab-akibat, sehingga untuk penelitian selanjutnya akan lebih baik jika dicoba juga mengikutsertakan kedua karakteristik buah tersebut dalam pemodelan atau mencoba kombinasi karakteristik lainnya. 
-- Dapat juga digunakan evaluasi lain seperti precision, recall, F1-score, atau AUC-ROC serta pengecekan apakah model overfit atau tidak supaya jika digunakan data baru model yang sudah dibuat dapat memprediksi dengan kualitas buah dengan baik.
-- Perihal model, dapat dicoba untuk lakukan tuning parameter agar bisa diperoleh parameter lebih optimal dari tiap model. 
+- Proses evaluasi menggunakan RMSE, diperoleh nilai 0,37 dari proses data training, kemudian 0,32 untuk data test. 
+- Dilihat dari grafik evaluasi, bertambahnya epoch malah menunjukkan RMSE yang semakin besar. Sehingga untuk selanjutnya bisa dilakukan uji coba pengurangan ukuran batch size, pengurangan data training dan penambahan epoch, penambahan layer model, dan proses hyperparameter tuning lainnya.
+- Setelah dilakukan prediksi rekomendasi dengan nomor user 2, diperoleh top-5 anime dengan rating terbesar yang mirip dengan user 2 yaitu anime bergenre adventure, sci-fi dan shonen yang mendominasi. Untuk predicted rating yang dikeluarkan juga sangat mirip dari 1 anime ke anime lain yang direkomendasikan sehingga bisa diasumsikan bahwa data yang ada bisa digunakan untuk proses rekomendasi dan bisa merekomendasikan film yang memiliki type yang mirip. 
